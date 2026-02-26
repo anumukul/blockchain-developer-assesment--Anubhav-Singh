@@ -18,7 +18,7 @@ router.get('/:address', (req, res) => {
   // TODO: Candidate - return balance as string (BigInt is not JSON-serializable)
   res.json({
     address: address.toLowerCase(),
-    balance: wallet.balance,
+    balance: String(wallet.balance),
     nonce: wallet.nonce
   });
 });

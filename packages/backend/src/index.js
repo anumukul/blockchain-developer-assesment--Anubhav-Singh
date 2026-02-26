@@ -22,6 +22,9 @@ app.get('/api/health', (req, res) => {
 
 // TODO: Candidate - add global error handler middleware that returns { error: message } and status 500
 // app.use((err, req, res, next) => { ... });
+app.use((err, req, res, next) => {
+  res.status(500).json({ error: err.message || 'Internal Server Error' });
+});
 
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);

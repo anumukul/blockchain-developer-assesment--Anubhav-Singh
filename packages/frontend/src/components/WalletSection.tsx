@@ -14,7 +14,11 @@ export function WalletSection() {
     try {
       const data = await api.getWallet(address);
       // TODO: Candidate - handle balance which may come as number or string from API
-      setResult(`Balance: ${data.balance}, Nonce: ${data.nonce}`);
+      const balanceDisplay =
+      typeof data.balance === 'string' || typeof data.balance === 'number'
+        ? String(data.balance)
+        : '0';
+    setResult(`Balance: ${balanceDisplay}, Nonce: ${data.nonce}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to fetch wallet');
     } finally {

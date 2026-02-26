@@ -25,6 +25,9 @@ function withdraw(contractAddress, toAddress, amount, callerAddress) {
   const contract = getContract(contractAddress);
   if (!contract) return { success: false, error: 'Contract not found' };
   // TODO: Candidate - add check: only contract.owner may call withdraw
+  if (callerAddress.toLowerCase() !== contract.owner.toLowerCase()) {
+    return { success: false, error: 'Only the contract owner can withdraw' };
+  }
   const amountBigInt = BigInt(amount);
   if (contract.balance < amountBigInt) return { success: false, error: 'Insufficient contract balance' };
 
@@ -41,7 +44,7 @@ function balanceOf(contractAddress) {
   const contract = getContract(contractAddress);
   if (!contract) return { success: false, error: 'Contract not found' };
   // FIX: Candidate - return balance as string for JSON compatibility
-  return { success: true, balance: contract.balance };
+  return { success: true, balance: String(contract.balance) };
 }
 
 module.exports = {
